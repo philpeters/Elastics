@@ -842,15 +842,16 @@ static NSImage *_brImage;
 - (void)refreshSubmenu:(NSMenu *)menu forInstance:(EC2Instance *)instance
 {
 	DataSource *dataSource = [DataSource sharedDataSource];
-
+    
 	// XXX: it seems that there's a bug in Cocoa menu system - when chart menu item gets removed,
 	// Cocoa will release submenu's window (NSCarbonMenuWindow) prematurely and the app will crash with zombie access.
 	// To work around this, find NSCarbonMenuWindow and send it retain/autorelease to keep it alive until next event loop.
+    [[menu retain] autorelease];
 	for (NSInteger i = 0; i < [menu numberOfItems]; i++) {
 		NSView *view = [[menu itemAtIndex:i] view];
 		if (view) {
 			NSWindow *menuWindow = [view window];
-			[[menuWindow retain] autorelease];
+//            [[menuWindow retain] autorelease];
 		}
 	}
 	
@@ -879,7 +880,7 @@ static NSImage *_brImage;
 	if (instance.instanceState.code != EC2_INSTANCE_STATE_PENDING) {
 		[menu addItem:[NSMenuItem separatorItem]];
 		[menu addItem:[self titleItemWithTitle:@"CPU UTILIZATION"]];
-		[menu addItem:[self chartItemWithRange:kAWSLastHourRange datapoints:[dataSource statisticsForMetric:kAWSCPUUtilizationMetric forInstance:instance.instanceId]]];
+//		[menu addItem:[self chartItemWithRange:kAWSLastHourRange datapoints:[dataSource statisticsForMetric:kAWSCPUUtilizationMetric forInstance:instance.instanceId]]];
 
 		if ([[dataSource statisticsForMetric:kAWSCPUUtilizationMetric forInstance:instance.instanceId] count] > 0) {
 			CGFloat maxCPUUtilization = [dataSource maximumValueForMetric:kAWSCPUUtilizationMetric forInstance:instance.instanceId forRange:kAWSLastHourRange];
