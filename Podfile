@@ -1,5 +1,5 @@
 target 'Elastics' do
 
-  pod 'OpenSSL', '1.0.208'
+#pod 'OpenSSL', '1.0.210'
 
 end

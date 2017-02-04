@@ -11,7 +11,6 @@
 #import "ChartView.h"
 #import "Preferences.h"
 #import "AccountsManager.h"
-#import "ValidateReceipt.h"
 #import "Constants.h"
 
 //const CGFloat kActionItemTableWidth             = 180.;
