@@ -11,6 +11,9 @@
 #import "EC2Instance.h"
 #import "MonitoringGetMetricStatisticsRequest.h"
 #import "MonitoringDatapoint.h"
+#import "EC2StartInstancesRequest.h"
+#import "EC2StopInstancesRequest.h"
+#import "EC2RebootInstancesRequest.h"
 
 // Notifies observers that all requests started by refresh have been completed
 extern NSString *const kDataSourceRefreshCompletedNotification;

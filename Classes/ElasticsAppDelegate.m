@@ -125,7 +125,7 @@ static NSImage *_brImage;
 {
 	TB_VALIDATE_EXPIRATION_DATE();
 	TB_VALIDATE_RECEIPT();
-	
+
 	if (!_titleColor)               _titleColor = [[NSColor colorWithDeviceRed:(0.f/255.f) green:(112.f/255.f) blue:(180.f/255.f) alpha:1.f] retain];
 	if (!_taggedInstanceColor)      _taggedInstanceColor = [[NSColor blackColor] retain];
 	if (!_untaggedInstanceColor)	_untaggedInstanceColor = [[NSColor blackColor] retain];
@@ -135,7 +135,7 @@ static NSImage *_brImage;
 	if (!_infoColumnColor)			_infoColumnColor = [[NSColor blackColor] retain];
 
 	if (!_statusItemFont)			_statusItemFont = [[NSFont systemFontOfSize:13.0f] retain];
-	
+
 	if (!_titleFont)				_titleFont = [[NSFont boldSystemFontOfSize:10.0f] retain];
 	if (!_taggedInstanceFont)		_taggedInstanceFont = [[NSFont boldSystemFontOfSize:13.0f] retain];
 	if (!_untaggedInstanceFont)		_untaggedInstanceFont = [[NSFont systemFontOfSize:13.0f] retain];
@@ -191,10 +191,10 @@ static NSImage *_brImage;
 								  _infoColumnFont, NSFontAttributeName,
 								  //infoParagraphStyle, NSParagraphStyleAttributeName,
 								  nil] retain];
-	
+
 	if (!_statusItemImage)		    _statusItemImage = [NSImage imageNamed:@"StatusItem"];
 	if (!_statusItemAlertImage)	    _statusItemAlertImage = [NSImage imageNamed:@"StatusItemAlert"];
-	
+
 	if (!_usImage)	                _usImage = [NSImage imageNamed:@"US"];
 	if (!_euImage)	                _euImage = [NSImage imageNamed:@"EU"];
 	if (!_sgImage)	                _sgImage = [NSImage imageNamed:@"SG"];
@@ -211,7 +211,7 @@ static NSImage *_brImage;
 
 	// load accounts
 	_accountsManager = [[AccountsManager alloc] init];
-	
+
 	// load current preferences
 	[self loadPreferences];
 
@@ -242,10 +242,10 @@ static NSImage *_brImage;
 														selector:@selector(preferencesDidChange:)
 															name:kPreferencesDidChangeNotification
 														  object:nil];
-	
+
 	// subscribe to workspace notifications
 	NSNotificationCenter *workspaceNotificationCenter = [[NSWorkspace sharedWorkspace] notificationCenter];
-	
+
 	// fast user switching
 	[workspaceNotificationCenter addObserver:self
 									selector:@selector(workspaceSessionDidBecomeActive:)
@@ -255,13 +255,13 @@ static NSImage *_brImage;
 									selector:@selector(workspaceSessionDidResignActive:)
 										name:NSWorkspaceSessionDidResignActiveNotification
 									  object:nil];
-	
+
 	// sleep
 	[workspaceNotificationCenter addObserver:self
 									selector:@selector(workspaceDidWake:)
 										name:NSWorkspaceDidWakeNotification
 									  object:nil];
-	
+
 	// perform initial refresh
 	[self refresh];
 }
@@ -273,7 +273,7 @@ static NSImage *_brImage;
 	[[NSDistributedNotificationCenter defaultCenter] removeObserver:self
 															   name:kPreferencesDidChangeNotification
 															 object:nil];
-	
+
 	// post app termination notification so Preferences will terminate too
 	[[NSDistributedNotificationCenter defaultCenter] postNotificationName:kPreferencesShouldTerminateNotification
 																   object:nil
@@ -310,21 +310,21 @@ static NSImage *_brImage;
         DataSource *dataSource = [DataSource sharedDataSource];
 		NSInteger currentAccountId = userDefaults.accountId;
         BOOL hideTerminatedInstances = userDefaults.isHideTerminatedInstances;
-		
+
 		// Accounts
-		
+
 		[_statusMenu addItem:[NSMenuItem separatorItem]];
 		[_statusMenu addItem:[self titleItemWithTitle:@"AWS ACCOUNTS"]];
-        
+
 		for (Account *account in [_accountsManager accounts]) {
 			NSMenuItem *item = [self actionItemWithLabel:account.title info:nil action:@selector(selectAccountAction:)];
 			[item setTag:account.accountId];
 			[item setState:account.accountId == currentAccountId ? NSOnState : NSOffState];
 			[_statusMenu addItem:item];
 		}
-		
+
 		// Regions
-		
+
 		[_statusMenu addItem:[NSMenuItem separatorItem]];
 		[_statusMenu addItem:[self titleItemWithTitle:@"AWS REGIONS"]];
 
@@ -354,13 +354,13 @@ static NSImage *_brImage;
                                                        info:[dataSource instanceCountInRegionStringRepresentation:kAWSSouthAmericaSaoPauloRegion hideTerminatedInstances:hideTerminatedInstances]]];
 
 		// Refresh
-		
+
 		if (!userDefaults.isRefreshOnMenuOpen) {
 			[_statusMenu addItem:[NSMenuItem separatorItem]];
 			[_statusMenu addItem:[self actionItemWithLabel:@"Refresh" info:nil action:@selector(refreshAction:)]];
 		}
 	}
-	
+
 	// Preferences and Quit
 
 	[_statusMenu addItem:[NSMenuItem separatorItem]];
@@ -374,37 +374,37 @@ static NSImage *_brImage;
     NSDictionary *userInfo = [notification userInfo];
     NSString *refreshType = [userInfo objectForKey:kDataSourceRefreshTypeInfoKey];
     DataSource *dataSource = [DataSource sharedDataSource];
-    
+
     if ([refreshType isEqualToString:kDataSourceCurrentRegionRefreshType]) {
         // current region refresh
 
 //        TBTrace(@"current region refresh");
-        
+
         [_statusMenu setMinimumWidth:0];
         [_statusMenu removeAllItems];
 
         NSError *error = [userInfo objectForKey:kDataSourceErrorInfoKey];
         if (error) {
             // refresh finished with error
-            
+
             NSString *errorMessage = nil;
             if ([error domain] == kAWSErrorDomain)
                 errorMessage = [[error userInfo] objectForKey:kAWSErrorMessageKey];
             else
                 errorMessage = [[error userInfo] objectForKey:NSLocalizedDescriptionKey];
-            
+
             [_statusMenu addItem:[self errorMessageItemWithTitle:errorMessage]];
-            
+
             [self addMenuActionItems];
-            
+
             [_statusItem setImage:_statusItemAlertImage];
             [_statusItem setTitle:nil];
         }
         else {
             // refresh finished successfully
-            
+
             NSArray *instances = nil;
-            
+
             BOOL hideTerminatedInstances = [[NSUserDefaults standardUserDefaults] isHideTerminatedInstances];
             BOOL sortInstancesByTitle = [[NSUserDefaults standardUserDefaults] isSortInstancesByTitle];
             if (hideTerminatedInstances) {
@@ -414,36 +414,36 @@ static NSImage *_brImage;
                 instances = sortInstancesByTitle ? dataSource.sortedInstances : dataSource.instances;
             }
             NSUInteger instancesCount = [instances count];
-            
+
             if (instancesCount > 0) {
                 // there are instances
-                
+
                 [_statusMenu addItem:[self titleItemWithTitle:@"INSTANCES"]];
-                
+
                 for (EC2Instance *instance in instances) {
                     [_statusMenu addItem:[self instanceItemWithInstance:instance]];
                 }
-                
+
                 [self addMenuActionItems];
             }
             else {
                 // there are no instances
-                
+
                 NSString *awsRegionName = [AWSRequest regionTitleForRegion:[[NSUserDefaults standardUserDefaults] awsRegion]];
                 [_statusMenu addItem:[self notificationMessageItemWithTitle:
                                       [NSString stringWithFormat:@"No instances in\n%@ region.", awsRegionName]]];
-                
+
                 [self addMenuActionItems];
             }
 
             [_statusItem setImage:_statusItemImage];
-            
+
             NSAttributedString *statusItemTitle = [[NSAttributedString alloc]
                                                    initWithString:[NSString stringWithFormat:@"%zd", instancesCount]
                                                    attributes:_statusItemAttributes];
             [_statusItem setAttributedTitle:statusItemTitle];
             [statusItemTitle release];
-        
+
             [_statusMenu setMinimumWidth:100];
         }
     }
@@ -459,10 +459,10 @@ static NSImage *_brImage;
                 *stop = [[obj representedObject] isEqualToString:awsRegion];
                 return *stop;
             }];
-            
+
             if (menuItemIdx != NSNotFound) {
                 NSMenuItem *regionItem = [self regionItemWithRegion:awsRegion
-                                                               info:[dataSource instanceCountInRegionStringRepresentation:awsRegion hideTerminatedInstances:hideTerminatedInstances]]; 
+                                                               info:[dataSource instanceCountInRegionStringRepresentation:awsRegion hideTerminatedInstances:hideTerminatedInstances]];
                 [_statusMenu removeItemAtIndex:menuItemIdx];
                 [_statusMenu insertItem: regionItem atIndex:menuItemIdx];
             }
@@ -472,14 +472,14 @@ static NSImage *_brImage;
         // instance refresh
 
 //        TBTrace(@"%@", refreshType);
-        
+
         EC2Instance *instance = [dataSource instance:refreshType];
-        
+
         NSUInteger menuItemIdx = [[_statusMenu itemArray] indexOfObjectPassingTest:^(id obj, NSUInteger idx, BOOL *stop) {
             *stop = [[obj representedObject] isEqualToString:refreshType];
             return *stop;
         }];
-        
+
         if (instance && menuItemIdx != NSNotFound) {
             NSMenu *instanceSubmenu = [[[_statusMenu itemArray] objectAtIndex:menuItemIdx] submenu];
             [self refreshSubmenu:instanceSubmenu forInstance:instance];
@@ -557,7 +557,7 @@ static NSImage *_brImage;
 {
 	return [self messageItemWithTitle:title image:[NSImage imageNamed:@"Progress"]];
 }
-	 
+
 - (NSMenuItem *)errorMessageItemWithTitle:(NSString *)title
 {
 	return [self messageItemWithTitle:title image:[NSImage imageNamed:@"Error"]];
@@ -601,10 +601,10 @@ static NSImage *_brImage;
 		}
 //	}
 	[menuItem setImage:stateImage];
-	
+
 	// set item submenu
 	[menuItem setSubmenu:[self submenuForInstance:instance]];
-	
+
 	// set item represented object to instance id
 	[menuItem setRepresentedObject:instance.instanceId];
     // set tag to mark instance items
@@ -617,7 +617,7 @@ static NSImage *_brImage;
 {
     NSInteger currentRegion = [[NSUserDefaults standardUserDefaults] region];
     NSMenuItem *item = nil;
-    
+
     if ([awsRegion isEqualToString:kAWSUSEastRegion]) {
         // US East (Virginia)
         item = [self actionItemWithLabel:kAWSUSEastRegionTitle
@@ -698,7 +698,7 @@ static NSImage *_brImage;
         [item setRepresentedObject:kAWSUSGovCloudRegion];
         [item setState:kPreferencesAWSUSGovCloudRegion == currentRegion ? NSOnState : NSOffState];
     }
-    
+
     return item;
 }
 
@@ -761,10 +761,10 @@ static NSImage *_brImage;
 - (NSMenuItem *)actionItemWithLabel:(NSString *)label info:(NSString *)info action:(SEL)action
 {
     NSMutableAttributedString *attributedTitle = nil;
-    
+
     if ([info length]) {
         // action item with additional info on the right
-        
+
         NSTextTable *table = [[[NSTextTable alloc] init] autorelease];
         [table setNumberOfColumns:2];
         [table setLayoutAlgorithm:NSTextTableAutomaticLayoutAlgorithm];
@@ -773,25 +773,25 @@ static NSImage *_brImage;
 
         NSTextTableBlock *labelBlock = [[[NSTextTableBlock alloc] initWithTable:table startingRow:0 rowSpan:1 startingColumn:0 columnSpan:1] autorelease];
         [labelBlock setContentWidth:kActionItemLabelColumnWidth type:NSTextBlockAbsoluteValueType];
-        
+
         NSTextTableBlock *infoBlock = [[[NSTextTableBlock alloc] initWithTable:table startingRow:0 rowSpan:1 startingColumn:1 columnSpan:1] autorelease];
-        
+
         NSMutableParagraphStyle *labelParagraphStyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
         [labelParagraphStyle setAlignment:NSLeftTextAlignment];
         [labelParagraphStyle setLineBreakMode:NSLineBreakByClipping];
         [labelParagraphStyle setTextBlocks:[NSArray arrayWithObject:labelBlock]];
-        
+
         NSMutableParagraphStyle *infoParagraphStyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
         [infoParagraphStyle setAlignment:NSRightTextAlignment];
         [infoParagraphStyle setTextBlocks:[NSArray arrayWithObject:infoBlock]];
-        
+
         attributedTitle = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
-        
+
         NSUInteger textLength = [attributedTitle length];
         [attributedTitle replaceCharactersInRange:NSMakeRange(textLength, 0) withString:[NSString stringWithFormat:@"%@\n", ([label length] ? label : @" ")]];
         [attributedTitle setAttributes:_actionItemAttributes range:NSMakeRange(textLength, [attributedTitle length] - textLength)];
         [attributedTitle addAttribute:NSParagraphStyleAttributeName value:labelParagraphStyle range:NSMakeRange(textLength, [attributedTitle length] - textLength)];
-        
+
         textLength = [attributedTitle length];
         [attributedTitle replaceCharactersInRange:NSMakeRange(textLength, 0) withString:[NSString stringWithFormat:@"%@", ([info length] ? info : @" ")]];
         [attributedTitle setAttributes:_infoColumnAttributes range:NSMakeRange(textLength, [attributedTitle length] - textLength)];
@@ -802,13 +802,13 @@ static NSImage *_brImage;
 
         attributedTitle = [[[NSMutableAttributedString alloc] initWithString:label attributes:_actionItemAttributes] autorelease];
     }
-    
+
     NSMenuItem *menuItem = [[[NSMenuItem alloc] initWithTitle:@"" action:action keyEquivalent:@""] autorelease];
 
     [menuItem setIndentationLevel:1];
     [menuItem setAttributedTitle:attributedTitle];
     [menuItem setTarget:self];
-    
+
     return menuItem;
 }
 
@@ -817,11 +817,11 @@ static NSImage *_brImage;
 - (NSMenuItem *)dummyItem
 {
 	NSView *dummyView = [[[NSView alloc] initWithFrame:NSMakeRect(0, 0, 1, 0.01f)] autorelease];
-	
+
 	NSMenuItem *menuItem = [[[NSMenuItem alloc] initWithTitle:@"" action:NULL keyEquivalent:@""] autorelease];
 	[menuItem setIndentationLevel:1];
 	[menuItem setView:dummyView];
-	
+
 	return menuItem;
 }
 
@@ -833,7 +833,7 @@ static NSImage *_brImage;
     [menu setTitle:instance.instanceId];
 	[menu setDelegate:self];
 	[menu setShowsStateColumn:NO];
- 
+
 	[self refreshSubmenu:menu forInstance:instance];
 
 	return [menu autorelease];
@@ -842,7 +842,7 @@ static NSImage *_brImage;
 - (void)refreshSubmenu:(NSMenu *)menu forInstance:(EC2Instance *)instance
 {
 	DataSource *dataSource = [DataSource sharedDataSource];
-    
+
 	// XXX: it seems that there's a bug in Cocoa menu system - when chart menu item gets removed,
 	// Cocoa will release submenu's window (NSCarbonMenuWindow) prematurely and the app will crash with zombie access.
 	// To work around this, find NSCarbonMenuWindow and send it retain/autorelease to keep it alive until next event loop.
@@ -854,7 +854,7 @@ static NSImage *_brImage;
 //            [[menuWindow retain] autorelease];
 		}
 	}
-	
+
 	[menu removeAllItems];
 
 	[menu addItem:[self titleItemWithTitle:@"INSTANCE DETAILS"]];
@@ -886,7 +886,7 @@ static NSImage *_brImage;
 			CGFloat maxCPUUtilization = [dataSource maximumValueForMetric:kAWSCPUUtilizationMetric forInstance:instance.instanceId forRange:kAWSLastHourRange];
 			CGFloat minCPUUtilization = [dataSource minimumValueForMetric:kAWSCPUUtilizationMetric forInstance:instance.instanceId forRange:kAWSLastHourRange];
 			CGFloat avgCPUUtilization = [dataSource averageValueForMetric:kAWSCPUUtilizationMetric forInstance:instance.instanceId forRange:kAWSLastHourRange];
-			
+
 			if (maxCPUUtilization > 0. || minCPUUtilization > 0. || avgCPUUtilization > 0.) {
 				[menu addItem:[self infoItemWithLabel:@"Maximum" info:[NSString stringWithFormat:@"%.1f%%", maxCPUUtilization] action:NULL tooltip:nil]];
 				[menu addItem:[self infoItemWithLabel:@"Minimum" info:[NSString stringWithFormat:@"%.1f%%", minCPUUtilization] action:NULL tooltip:nil]];
@@ -895,15 +895,26 @@ static NSImage *_brImage;
 		}
 	}
 
-	if ((instance.instanceState.code & 0xFF) == EC2_INSTANCE_STATE_RUNNING) {
-		[menu addItem:[NSMenuItem separatorItem]];
+    [menu addItem:[NSMenuItem separatorItem]];
+	[menu addItem:[self titleItemWithTitle:@"INSTANCE MANAGEMENT"]];
 
-		if ([instance.platform isEqualToString:@"windows"])
-			[menu addItem:[self actionItemWithLabel:@"Connect (RDP)..." info:nil action:@selector(connectToInstanceWithRdpAction:)]];
-		else
-			[menu addItem:[self actionItemWithLabel:@"Connect (SSH)..." info:nil action:@selector(connectToInstanceWithSshAction:)]];
+	switch(instance.instanceState.code & 0xFF){
+        case EC2_INSTANCE_STATE_RUNNING:
+            if ([instance.platform isEqualToString:@"windows"])
+                [menu addItem:[self actionItemWithLabel:@"Connect (RDP)..." info:nil action:@selector(connectToInstanceWithRdpAction:)]];
+            else {
+                [menu addItem:[self actionItemWithLabel:@"Connect (SSH)..." info:nil action:@selector(connectToInstanceWithSshAction:)]];
+            }
+            [menu addItem:[self actionItemWithLabel:@"Stop" info:nil action:@selector(stopInstanceAction:)]];
+            [menu addItem:[self actionItemWithLabel:@"Reboot" info:nil action:@selector(rebootInstanceAction:)]];
+            break;
+
+        case EC2_INSTANCE_STATE_STOPPED:
+            [menu addItem:[self actionItemWithLabel:@"Start" info:nil action:@selector(startInstanceAction:)]];
+            break;
 	}
-	
+
+
 //	[menu addItem:[NSMenuItem separatorItem]];
 //	[menu addItem:[self actionItemWithLabel:@"Restart..." action:@selector(connectToInstanceAction:)]];
 //	[menu addItem:[self actionItemWithLabel:@"Terminate..." action:@selector(connectToInstanceAction:)]];
@@ -916,7 +927,7 @@ static NSImage *_brImage;
 	DataSource *dataSource = [DataSource sharedDataSource];
     BOOL result = [dataSource refreshCurrentRegionIgnoringAge:NO];
     [dataSource refreshAllRegionsIgnoringAge:NO];
-    
+
     return result;
 }
 
@@ -925,7 +936,7 @@ static NSImage *_brImage;
 	DataSource *dataSource = [DataSource sharedDataSource];
 	BOOL result = [dataSource refreshCurrentRegionIgnoringAge:YES];
     [dataSource refreshAllRegionsIgnoringAge:YES];
-    
+
     return result;
 }
 
@@ -939,11 +950,11 @@ static NSImage *_brImage;
 {
     NSDictionary *userInfo = [notification userInfo];
     NSString *refreshType = [userInfo objectForKey:kDataSourceRefreshTypeInfoKey];
-    
+
     if ([refreshType isEqualToString:kDataSourceCurrentRegionRefreshType]) {
         [_statusMenu addItem:[self dummyItem]];
     }
-    
+
 	[self performSelector:@selector(refreshMenu:)
 			   withObject:notification
 			   afterDelay:0.
@@ -968,7 +979,7 @@ static NSImage *_brImage;
 	NSString *instanceId = [menu title];
 	if (![instanceId length]) {
 		// status menu
-		
+
 		[self disableRefreshTimer];
 
 		// refresh all instances only if "Refresh on menu open" is checked
@@ -987,7 +998,7 @@ static NSImage *_brImage;
 	}
 	else {
 		// instance submenu
-		
+
 		[self refresh:instanceId];
 	}
 }
@@ -997,7 +1008,7 @@ static NSImage *_brImage;
 	NSString *instanceId = [menu title];
 	if (![instanceId length]) {
 		// status menu
-		
+
 		// enable background refresh
 		[self enableRefreshTimer];
 	}
@@ -1013,7 +1024,7 @@ static NSImage *_brImage;
 
 	// set AWS options
 	[self setupDataSource];
-	
+
 	// setup background refresh timer
 	[self enableRefreshTimer];
 }
@@ -1021,7 +1032,7 @@ static NSImage *_brImage;
 - (void)setupDataSource
 {
 	NSMutableDictionary *options = [NSMutableDictionary dictionary];
-	
+
 	// reload accounts
 	[_accountsManager loadAccounts];
 
@@ -1031,7 +1042,7 @@ static NSImage *_brImage;
 		// if previously selected account does not exist, get the first one
 		account = [[_accountsManager accounts] objectAtIndex:0];
 	}
-	
+
 	if (account) {
 		[[NSUserDefaults standardUserDefaults] setAccountId:account.accountId];
 		[options setObject:account.accessKeyID forKey:kAWSAccessKeyIdOption];
@@ -1042,13 +1053,13 @@ static NSImage *_brImage;
 		[options setObject:@"" forKey:kAWSAccessKeyIdOption];
 		[options setObject:@"" forKey:kAWSSecretAccessKeyOption];
 	}
-	
+
 	// setup AWS region from user defaults
 	NSString *awsRegion = [[NSUserDefaults standardUserDefaults] awsRegion];
 	if (awsRegion) {
 		[options setObject:awsRegion forKey:kAWSRegionOption];
 	}
-	
+
 	[DataSource setDefaultRequestOptions:options];
 }
 
@@ -1068,12 +1079,12 @@ static NSImage *_brImage;
 
 	NSTimeInterval refreshInterval = [[NSUserDefaults standardUserDefaults] refreshInterval];
 	if (refreshInterval > 0) {
-		
+
 		if (_refreshTimer) {
 			[_refreshTimer invalidate];
 			TBRelease(_refreshTimer);
 		}
-		
+
 		_refreshTimer = [[NSTimer scheduledTimerWithTimeInterval:refreshInterval
 														 target:self
 													   selector:@selector(timerRefresh:)
@@ -1102,7 +1113,7 @@ static NSImage *_brImage;
 - (void)workspaceSessionDidBecomeActive:(NSNotification *)notification
 {
 	TBTrace(@"performing refresh and enabling background refresh timer");
-	
+
 	[self refresh];
 	[self enableRefreshTimer];
 }
@@ -1110,7 +1121,7 @@ static NSImage *_brImage;
 - (void)workspaceSessionDidResignActive:(NSNotification *)notification
 {
 	TBTrace(@"disabling background refresh timer");
-	
+
 	[self disableRefreshTimer];
 }
 
@@ -1132,7 +1143,7 @@ static NSImage *_brImage;
 {
 	NSInteger accountId = [sender tag];
 	[[NSUserDefaults standardUserDefaults] setAccountId:accountId];
-	
+
     [[DataSource sharedDataSource] reset];
 	[self preferencesDidChange:nil];
 }
@@ -1141,7 +1152,7 @@ static NSImage *_brImage;
 {
 	NSInteger region = [sender tag];
 	[[NSUserDefaults standardUserDefaults] setRegion:region];
-	
+
 	[self preferencesDidChange:nil];
 }
 
@@ -1169,6 +1180,79 @@ static NSImage *_brImage;
 	[pasteBoard setString:[menuItem representedObject] forType:NSPasteboardTypeString];
 }
 
+
+- (NSAlert *)createAlertForInstanceAction:(NSString *)alertMessage {
+	NSAlert *alert = [[NSAlert alloc] init];
+	[alert addButtonWithTitle:@"Continue"];
+	[alert addButtonWithTitle:@"Cancel"];
+	[alert setMessageText:@"Alert"];
+	[alert setInformativeText:alertMessage];
+	[alert setAlertStyle:NSWarningAlertStyle];
+	return alert;
+}
+
+- (NSString *)getInstanceIdFromMenu:(id)sender {
+	NSMenuItem *menuItem = (NSMenuItem *)sender;
+	return [[menuItem menu] title];
+}
+
+- (void)stopInstanceAction:(id)sender{
+	NSString *instanceId = [self getInstanceIdFromMenu:sender];
+	NSString *alertMessage = [NSString stringWithFormat:@"Are you sure you want to STOP Instance %@?", instanceId];
+	NSAlert *alert = [self createAlertForInstanceAction:alertMessage];
+	[alert beginSheetModalForWindow:[NSApp mainWindow] modalDelegate:self didEndSelector:@selector(stopInstanceAlertEnded:returnCode:contextInfo:) contextInfo:sender];
+}
+
+- (void)rebootInstanceAction:(id)sender{
+	NSString *instanceId = [self getInstanceIdFromMenu:sender];
+	NSString *alertMessage = [NSString stringWithFormat:@"Are you sure you want to REBOOT Instance %@?", instanceId];
+	NSAlert *alert = [self createAlertForInstanceAction:alertMessage];
+	[alert beginSheetModalForWindow:[NSApp mainWindow] modalDelegate:self didEndSelector:@selector(rebootInstanceAlertEnded:returnCode:contextInfo:) contextInfo:sender];
+}
+- (void)startInstanceAction:(id)sender{
+	NSString *instanceId = [self getInstanceIdFromMenu:sender];
+	NSString *alertMessage = [NSString stringWithFormat:@"Are you sure you want to START Instance %@?", instanceId];
+	NSAlert *alert = [self createAlertForInstanceAction:alertMessage];
+	[alert beginSheetModalForWindow:[NSApp mainWindow] modalDelegate:self didEndSelector:@selector(startInstanceAlertEnded:returnCode:contextInfo:) contextInfo:sender];
+}
+
+- (void)startInstanceAlertEnded:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+	if (returnCode != NSAlertFirstButtonReturn)
+		return;
+
+	NSString *instanceId = [self getInstanceIdFromMenu:contextInfo];
+
+	EC2StartInstancesRequest *request = [[EC2StartInstancesRequest alloc] initWithOptions:nil delegate:nil];
+	[request start:instanceId];
+	[request release];
+}
+
+- (void)stopInstanceAlertEnded:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+	if (returnCode != NSAlertFirstButtonReturn)
+		return;
+
+	NSString *instanceId = [self getInstanceIdFromMenu:contextInfo];
+
+	EC2StopInstancesRequest *request = [[EC2StopInstancesRequest alloc] initWithOptions:nil delegate:nil];
+	[request start:instanceId];
+	[request release];
+}
+
+- (void)rebootInstanceAlertEnded:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
+	if (returnCode != NSAlertFirstButtonReturn)
+		return;
+
+	NSString *instanceId = [self getInstanceIdFromMenu:contextInfo];
+
+	EC2RebootInstancesRequest *request = [[EC2RebootInstancesRequest alloc] initWithOptions:nil delegate:nil];
+	[request start:instanceId];
+	[request release];
+}
+
+
 - (void)connectToInstanceWithSshAction:(id)sender
 {
 	NSMenuItem *menuItem = (NSMenuItem *)sender;
@@ -1176,28 +1260,28 @@ static NSImage *_brImage;
 	EC2Instance *instance = [[DataSource sharedDataSource] instance:instanceId];
 	NSInteger terminalApplication = [[NSUserDefaults standardUserDefaults] terminalApplication];
 	BOOL isOpenInTerminalTab = [[NSUserDefaults standardUserDefaults] isOpenInTerminalTab];
-	
+
 	if (instance) {
 		Account *account = [_accountsManager accountWithId:[[NSUserDefaults standardUserDefaults] accountId]];
-		
+
 		NSString *sshPrivateKeyFile = nil;
 		if ([account.sshPrivateKeyFile length] > 0)
 			sshPrivateKeyFile = account.sshPrivateKeyFile;
 		else
 			sshPrivateKeyFile = [[NSUserDefaults standardUserDefaults] sshPrivateKeyFile];
-		
+
 		NSString *sshUserName = nil;
 		if ([account.sshUserName length] > 0)
 			sshUserName = account.sshUserName;
 		else
 			sshUserName = [[NSUserDefaults standardUserDefaults] sshUserName];
-        
+
         NSUInteger sshPort = 0;
 		if (account.sshPort > 0)
 			sshPort = account.sshPort;
 		else
 			sshPort = [[NSUserDefaults standardUserDefaults] sshPort];
-		
+
 		NSString *sshOptions = nil;
 		if ([account.sshOptions length] > 0)
 			sshOptions = account.sshOptions;
@@ -1210,10 +1294,10 @@ static NSImage *_brImage;
 
 		if (sshPort > 0)
 			cmd = [cmd stringByAppendingFormat:@" -p %zd", sshPort];
-        
+
 		if ([sshPrivateKeyFile length] > 0)
 			cmd = [cmd stringByAppendingFormat:@" -i \'%@\'", sshPrivateKeyFile];
-		
+
 		if ([sshOptions length] > 0)
 			cmd = [cmd stringByAppendingFormat:@" %@", sshOptions];
 
@@ -1362,7 +1446,7 @@ static NSImage *_brImage;
 			default:
 				if (isOpenInTerminalTab) {
 					// new Terminal tab
-					
+
 					cmd = [NSString stringWithFormat:
 						   @"activate application \"Terminal\"\n"
 						   @"tell application \"System Events\"\n"
@@ -1381,7 +1465,7 @@ static NSImage *_brImage;
 				}
 				else {
 					// new Terminal window
-					
+
 					cmd = [NSString stringWithFormat:
 						   @"tell application \"Terminal\"\n"
 						   @"	do script \"%@\"\n"
@@ -1390,7 +1474,7 @@ static NSImage *_brImage;
 				}
 				break;
 		}
-		
+
 		TBTrace(@"%@", cmd);
 
 		NSAppleScript *appleScript = [[[NSAppleScript alloc] initWithSource:cmd] autorelease];
@@ -1406,11 +1490,11 @@ static NSImage *_brImage;
 	NSMenuItem *menuItem = (NSMenuItem *)sender;
 	NSString *instanceId = [[menuItem menu] title];
 	EC2Instance *instance = [[DataSource sharedDataSource] instance:instanceId];
-	
+
 	if (instance) {
 		// NSInteger rdpApplication = [[NSUserDefaults standardUserDefaults] rdpApplication];
 		// TODO: switch ...
-		
+
 		NSString *cmd = nil;
         NSString *instanceAddress = [[NSUserDefaults standardUserDefaults] isUsingPublicDNS] ? instance.dnsName : instance.ipAddress;
 
@@ -1426,11 +1510,11 @@ static NSImage *_brImage;
 			   instanceAddress];
 
 		TBTrace(@"%@", cmd);
-		
+
 		NSAppleScript *appleScript = [[[NSAppleScript alloc] initWithSource:cmd] autorelease];
 		NSDictionary *errorInfo = nil;
 		[appleScript executeAndReturnError:&errorInfo];
-		
+
 		// TODO: handle errors
 	}
 }
@@ -1438,18 +1522,18 @@ static NSImage *_brImage;
 - (void)aboutAction:(id)sender
 {
 	[_aboutPanel center];
-	
+
 	NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
 	NSString *bundleShortVersionString = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
 	NSString *version = [NSString stringWithFormat:NSLocalizedString(@"Version %@", nil), bundleShortVersionString];
-	
+
 	NSData *copyrightData = [NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"html"]];
 	NSAttributedString *copyright = [[NSAttributedString alloc] initWithHTML:copyrightData documentAttributes:nil];
-	
+
 	[_aboutVersionLabel setStringValue:version];
 	[_aboutCopyrightLabel setAttributedStringValue:copyright];
 	[copyright release];
-	
+
 	[_aboutPanel makeKeyAndOrderFront:self];
 }
 
