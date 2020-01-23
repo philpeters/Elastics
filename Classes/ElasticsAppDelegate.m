@@ -1482,6 +1482,7 @@ static NSImage *_brImage;
 		[appleScript executeAndReturnError:&errorInfo];
 
 		// TODO: handle errors
+        NSString *amd = @"asdsd";
 	}
 }
 
