@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <AppKit/NSPanel.h>
 #import "AccountsManager.h"
 
 @interface ElasticsAppDelegate : NSObject <NSApplicationDelegate, NSMenuDelegate> {

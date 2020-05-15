@@ -82,7 +82,6 @@ static classname *_shared##classname = nil;								\
 
 // TB_VALIDATE_RECEIPT
 
-#ifdef TB_SKIP_RECEIPT_VALIDATION
 
 #warning ***********************************
 #warning *** SKIPPING RECEIPT VALIDATION ***
@@ -95,25 +94,7 @@ static classname *_shared##classname = nil;								\
 		NSLog(@"***********************************"); \
 	}
 
-#else
 
-#ifdef TB_USE_SAMPLE_RECEIPT
-#define __TB_RECEIPT_PATH @"~/Documents/receipt.sample"
-#else
-#define __TB_RECEIPT_PATH \
-	([NSBundle instancesRespondToSelector:@selector(appStoreReceiptURL)] \
-		? [[[NSBundle mainBundle] appStoreReceiptURL] path]\
-		: [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"Contents/_MASReceipt/receipt"])
-#endif	// TB_USE_SAMPLE_RECEIPT
-
-#define TB_VALIDATE_RECEIPT() \
-	{ \
-		NSString *_receiptPath = __TB_RECEIPT_PATH; \
-		validateReceiptAtPath(_receiptPath);	\
-		NSLog(@"receipt validated successfully"); \
-	}
-
-#endif	// TB_SKIP_RECEIPT_VALIDATION
 
 // TB_VALIDATE_EXPIRATION_DATE
 

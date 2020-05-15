@@ -89,6 +89,12 @@
 		C3EA80F213E1702A00FFFF7F /* US.png in Resources */ = {isa = PBXBuildFile; fileRef = C3EA80EE13E1702A00FFFF7F /* US.png */; };
 		C3F19E6E12C60E87001AB554 /* EC2Monitoring.m in Sources */ = {isa = PBXBuildFile; fileRef = C3F19E6D12C60E87001AB554 /* EC2Monitoring.m */; };
 		C3F1A65E12C7A7EF001AB554 /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = C3F1A65D12C7A7EF001AB554 /* Preferences.m */; };
+		DCEF0361AD65D20BF1B770A3 /* EC2RebootInstancesRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DCEF0CF79D0E0E4C5A5997F9 /* EC2RebootInstancesRequest.m */; };
+		DCEF0A5CC2078D5915BEC1AA /* EC2StopInstancesRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DCEF09A6247B5923B048F2CD /* EC2StopInstancesRequest.m */; };
+		DCEF0AC6DB83A472566C51CD /* EC2StartInstancesRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = DCEF016404EBCB2A32BF9FDE /* EC2StartInstancesRequest.m */; };
+		DCEF0BCAE8593F948B136833 /* EC2StopInstancesResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = DCEF0531207CD24D1B63B86C /* EC2StopInstancesResponse.m */; };
+		DCEF0D26DCB9F67BBA49F444 /* EC2RebootInstancesResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = DCEF0E3C24829D05F214A83F /* EC2RebootInstancesResponse.m */; };
+		DCEF0E8A695FB78ADFF79E69 /* EC2StartInstancesResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = DCEF0F940ADE4443EE75A6A7 /* EC2StartInstancesResponse.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -254,6 +260,18 @@
 		C3F1A54B12C78F98001AB554 /* ElasticsPreferences.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ElasticsPreferences.xcodeproj; path = ElasticsPreferences/ElasticsPreferences.xcodeproj; sourceTree = "<group>"; };
 		C3F1A65C12C7A7EF001AB554 /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Preferences.h; path = ElasticsPreferences/Classes/Preferences.h; sourceTree = SOURCE_ROOT; };
 		C3F1A65D12C7A7EF001AB554 /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Preferences.m; path = ElasticsPreferences/Classes/Preferences.m; sourceTree = SOURCE_ROOT; };
+		DCEF016404EBCB2A32BF9FDE /* EC2StartInstancesRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EC2StartInstancesRequest.m; sourceTree = "<group>"; };
+		DCEF020DC45A626C9657D770 /* EC2StopInstancesResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EC2StopInstancesResponse.h; sourceTree = "<group>"; };
+		DCEF0531207CD24D1B63B86C /* EC2StopInstancesResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EC2StopInstancesResponse.m; sourceTree = "<group>"; };
+		DCEF081D59C0767413D10D1B /* EC2RebootInstancesResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EC2RebootInstancesResponse.h; sourceTree = "<group>"; };
+		DCEF095991AF1B26B81D1385 /* EC2RebootInstancesRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EC2RebootInstancesRequest.h; sourceTree = "<group>"; };
+		DCEF09A6247B5923B048F2CD /* EC2StopInstancesRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EC2StopInstancesRequest.m; sourceTree = "<group>"; };
+		DCEF0A961124CF78698A1FB6 /* EC2StopInstancesRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EC2StopInstancesRequest.h; sourceTree = "<group>"; };
+		DCEF0B56B6E6B3D80ED48E3E /* EC2StartInstancesResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EC2StartInstancesResponse.h; sourceTree = "<group>"; };
+		DCEF0CF79D0E0E4C5A5997F9 /* EC2RebootInstancesRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EC2RebootInstancesRequest.m; sourceTree = "<group>"; };
+		DCEF0E3C24829D05F214A83F /* EC2RebootInstancesResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EC2RebootInstancesResponse.m; sourceTree = "<group>"; };
+		DCEF0F52625D2580BC8AE119 /* EC2StartInstancesRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EC2StartInstancesRequest.h; sourceTree = "<group>"; };
+		DCEF0F940ADE4443EE75A6A7 /* EC2StartInstancesResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EC2StartInstancesResponse.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -402,6 +420,12 @@
 				C32C319612C21F7E00F2C136 /* MonitoringRequest.m */,
 				C32C31D412C22D1C00F2C136 /* MonitoringGetMetricStatisticsRequest.h */,
 				C32C31D512C22D1C00F2C136 /* MonitoringGetMetricStatisticsRequest.m */,
+				DCEF016404EBCB2A32BF9FDE /* EC2StartInstancesRequest.m */,
+				DCEF0F52625D2580BC8AE119 /* EC2StartInstancesRequest.h */,
+				DCEF0A961124CF78698A1FB6 /* EC2StopInstancesRequest.h */,
+				DCEF09A6247B5923B048F2CD /* EC2StopInstancesRequest.m */,
+				DCEF095991AF1B26B81D1385 /* EC2RebootInstancesRequest.h */,
+				DCEF0CF79D0E0E4C5A5997F9 /* EC2RebootInstancesRequest.m */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -425,6 +449,12 @@
 				C32C321612C2312E00F2C136 /* MonitoringResponse.m */,
 				C32C321812C2319D00F2C136 /* MonitoringGetMetricStatisticsResponse.h */,
 				C32C321912C2319D00F2C136 /* MonitoringGetMetricStatisticsResponse.m */,
+				DCEF0F940ADE4443EE75A6A7 /* EC2StartInstancesResponse.m */,
+				DCEF0B56B6E6B3D80ED48E3E /* EC2StartInstancesResponse.h */,
+				DCEF0531207CD24D1B63B86C /* EC2StopInstancesResponse.m */,
+				DCEF020DC45A626C9657D770 /* EC2StopInstancesResponse.h */,
+				DCEF0E3C24829D05F214A83F /* EC2RebootInstancesResponse.m */,
+				DCEF081D59C0767413D10D1B /* EC2RebootInstancesResponse.h */,
 			);
 			path = Responses;
 			sourceTree = "<group>";
@@ -556,7 +586,8 @@
 				ORGANIZATIONNAME = "Tundra Bot";
 				TargetAttributes = {
 					8D1107260486CEB800E47090 = {
-						DevelopmentTeam = TJ9Y2BHB87;
+						DevelopmentTeam = W6U285387Z;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -686,6 +717,12 @@
 				C3BC74DE13E13BFE0061D438 /* AccountsManager.m in Sources */,
 				C311E2E014B1B177000CB004 /* EC2Placement.m in Sources */,
 				C38ACE2714D29F7900A7C1E0 /* EC2Group.m in Sources */,
+				DCEF0AC6DB83A472566C51CD /* EC2StartInstancesRequest.m in Sources */,
+				DCEF0E8A695FB78ADFF79E69 /* EC2StartInstancesResponse.m in Sources */,
+				DCEF0BCAE8593F948B136833 /* EC2StopInstancesResponse.m in Sources */,
+				DCEF0D26DCB9F67BBA49F444 /* EC2RebootInstancesResponse.m in Sources */,
+				DCEF0A5CC2078D5915BEC1AA /* EC2StopInstancesRequest.m in Sources */,
+				DCEF0361AD65D20BF1B770A3 /* EC2RebootInstancesRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -722,6 +759,10 @@
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W6U285387Z;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -732,13 +773,19 @@
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = Elastics;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
 		C01FCF4C08A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W6U285387Z;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Elastics_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
@@ -747,7 +794,9 @@
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = Elastics;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
@@ -825,6 +874,10 @@
 		C3511363144C26E4008F737C /* Beta */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W6U285387Z;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -835,7 +888,9 @@
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = Elastics;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Beta;
 		};
@@ -861,6 +916,10 @@
 		C3603AFC12DB93BA00B13219 /* Distribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = W6U285387Z;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Elastics_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
@@ -869,7 +928,9 @@
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_NAME = Elastics;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Distribution;
 		};
